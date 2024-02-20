@@ -1,0 +1,435 @@
+Config file: /root/codes/Victima/sniper/config/UniNDP/CPU/baseline_CPU_8core_no_translation.cfg
+Config file: /root/codes/Victima/sniper/config/virtual_memory_configs/common_translation.cfg
+Config file: /root/codes/Victima/sniper/config/utopia_motivation_baseline.cfg
+Config file: /root/codes/Victima/sniper/config/nehalem.cfg
+Config file: /root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_CPU.cfg
+[SNIPER] (0) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (1) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (2) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (3) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (4) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (5) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (6) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] (7) Using trace file /root/codes/Victima/traces/xs.sift
+[SNIPER] Start here
+True
+[SNIPER] Running ['bash', '-c', '/root/codes/Victima/sniper/lib/sniper -c /root/codes/Victima/sniper/config/base.cfg --general/total_cores=1 --general/output_dir=/root/codes/UniNDP-virtuoso/test/CPU-no-translation/8core-all/xs -g --traceinput/mirror_output=true --config=/root/codes/Victima/sniper/config/nehalem.cfg --config=/root/codes/Victima/sniper/config/utopia_motivation_baseline.cfg --config=/root/codes/Victima/sniper/config/virtual_memory_configs/common_translation.cfg --config=/root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_CPU.cfg --config=/root/codes/Victima/sniper/config/UniNDP/CPU/baseline_CPU_8core_no_translation.cfg -g --traceinput/stop_with_first_app=true -g --traceinput/restart_apps=false -g --traceinput/enabled=true -g --traceinput/emulate_syscalls=false -g --traceinput/num_apps=8 -g --traceinput/thread_0=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_1=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_2=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_3=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_4=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_5=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_6=/root/codes/Victima/traces/xs.sift -g --traceinput/thread_7=/root/codes/Victima/traces/xs.sift']
+Starting simLet's load config
+config_path
+Allocating Simulator
+Hello from simulator's constructor
+Hello from simulator
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 0
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 1
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 2
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 3
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 4
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 5
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 6
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+Supporting 2page sizes: 12, 21, POTM Latency: 0
+Creating pwc_L4 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L3 cache with 4 sets, 4-way associative, 8B blocksize
+Creating pwc_L2 cache with 8 sets, 4-way associative, 8B blocksize
+0
+0
+60
+100
+Registered special metric: ptw_latency_heatmap
+Creating stlb_cache cache with 128 sets, 12-way associative, 4096B blocksize
+Creating itlb_cache cache with 16 sets, 8-way associative, 4096B blocksize
+Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
+Registered special metric: L2_TLB_miss_per_page
+Registering cache time series
+Registered special metric: cache_timeseries
+Creating nuca-cache cache with 16384 sets, 16-way associative, 64B blocksize
+Attaching Nuca to PTW
+Core : 7
+Directory type : limited_no_broadcast
+Total Entries : 33554432
+Associativity : 16
+Cache Block Size : 64
+Max hw sharers : 64
+Max Num Sharers : 8
+Initializing cache L 2
+Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 3
+Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Initializing cache L 4
+Creating L2 cache with 2048 sets, 16-way associative, 64B blocksize
+[SNIPER] --------------------------------------------------------------------------------
+[SNIPER] Sniper using SIFT/trace-driven frontend
+[SNIPER] Running full application in DETAILED mode
+[SNIPER] --------------------------------------------------------------------------------
+[SNIPER] Enabling performance models
+[SNIPER] Setting instrumentation mode to DETAILED
+[TRACE:2] -- DONE --
+[TRACE:0] -- DONE --
+[TRACE:1] -- DONE --
+[TRACE:4] -- DONE --
+[TRACE:5] -- DONE --
+[TRACE:7] -- DONE --
+[TRACE:3] -- DONE --
+[TRACE:6] -- DONE --
+[SNIPER] Disabling performance models
+[SNIPER] Leaving ROI after 18446696448.00 seconds
+[SNIPER] Simulated 6400.0M instructions, 953.3M cycles, 6.71 IPC
+[SNIPER] Simulation speed 0.0 KIPS (0.0 KIPS / target core - 23058372404.7ns/instr)
+[SNIPER] Setting instrumentation mode to FAST_FORWARD
+Logging PTW latency heatmap
+Logging PTW latency heatmap
+Logging PTW latency heatmap
+Logging PTW latency heatmap
+Logging PTW latency heatmap
+Logging PTW latency heatmap
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging Nuca ptw data
+Logging Nuca ptw data security
+Logging Nuca ptw data expressive
+Logging Nuca tlb entries
+Logging l1_dcache data
+Logging l1d_cache tlb entries
+Logging l2_cache data
+Logging l2_cache tlb entries
+Logging l1_dcache data security
+Logging l2_cache data security
+Logging l1_dcache data expressive
+Logging l2_cache data expressive
+Logging PTW latency heatmap
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging L2 TLB miss per page
+Logging PTW latency heatmap
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+dtlb_type value dtlb
+l1d_type value l1d
+Power Energy Energy %
+core-core 24.96 W 9.15 J 14.50%
+core-ifetch 5.01 W 1.84 J 2.91%
+core-alu 3.05 W 1.12 J 1.77%
+core-int 3.78 W 1.38 J 2.19%
+core-fp 8.70 W 3.19 J 5.05%
+core-mem 4.00 W 1.47 J 2.33%
+core-other 8.84 W 3.24 J 5.13%
+icache 5.51 W 2.02 J 3.20%
+dcache 13.37 W 4.90 J 7.77%
+l2 36.57 W 13.41 J 21.25%
+nuca 49.99 W 18.33 J 29.05%
+dram 7.27 W 2.66 J 4.22%
+other 1.07 W 0.39 J 0.62%
+
+core 58.33 W 21.39 J 33.89%
+cache 105.45 W 38.66 J 61.27%
+total 172.11 W 63.11 J 100.00%
+Warning: Unable to run gnuplot to create cpi stack graphs. Maybe gnuplot is not installed?
+<subprocess.Popen object at 0x14e3114bba90>
+25 0
+inside nested try
+inside try
+0
+[SNIPER] End
+[SNIPER] Elapsed time: 75099.56 seconds
+[SNIPER] Running McPAT

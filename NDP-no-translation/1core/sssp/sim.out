@@ -1,0 +1,42 @@
+                                   | Core 0     
+  Instructions                     |   799999874
+  Cycles                           |  9742575700
+  IPC                              |        0.08
+  Time (ns)                        |  3747144500
+  Idle time (ns)                   |         -53
+  Idle time (%)                    |       -0.0%
+Branch predictor stats             |            
+  num correct                      |   157350255
+  num incorrect                    |     3218716
+  misprediction rate               |       2.00%
+  mpki                             |        4.02
+TLB Summary                        |            
+  I-TLB                            |            
+    num accesses                   |           0
+    num misses                     |           0
+    miss rate                      |       0.00%
+    mpki                           |        0.00
+  D-TLB                            |            
+    num accesses                   |           0
+    num misses                     |           0
+    miss rate                      |       0.00%
+    mpki                           |        0.00
+  L2 TLB                           |            
+    num accesses                   |           0
+    num misses                     |           0
+    miss rate                      |       0.00%
+    mpki                           |        0.00
+Cache Summary                      |            
+  NUCA cache                       |            
+    num cache accesses             |   222529556
+    num cache misses               |           0
+    miss rate                      |       0.00%
+    mpki                           |        0.00
+DRAM summary                       |            
+  num dram accesses                |   211432214
+  average dram access latency (ns) |        0.00
+  average dram queueing delay      |        0.00
+Coherency Traffic                  |            
+  num loads from dram              |   158095524
+  num loads from dram cache        |           0
+  num loads from remote cache      |           0
