@@ -1,1 +1,1 @@
-0          [377163]  [  ]  [cache_cntlr.h       : 117]  *ERROR* Invalid cache configuration: size(1 Kb) != sets(5) * associativity(3) * block_size(64)
+0          [19738]  [  ]  [cache_cntlr.h       : 117]  *ERROR* Invalid cache configuration: size(0 Kb) != sets(4) * associativity(64) * block_size(1)

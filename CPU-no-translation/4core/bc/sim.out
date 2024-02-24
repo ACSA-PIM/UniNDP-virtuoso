@@ -1,13 +1,13 @@
                                    | Core 0     | Core 1     | Core 2     | Core 3    
-  Instructions                     |  499999790 |  499999811 |  500000041 |  499999792
-  Cycles                           |  719565080 |  719565080 |  719565080 |  719565080
-  IPC                              |       0.69 |       0.69 |       0.69 |       0.69
-  Time (ns)                        |  276755800 |  276755800 |  276755800 |  276755800
-  Idle time (ns)                   |       -107 |       -104 |       -152 |        -39
+  Instructions                     |  499999785 |  500000314 |  500000084 |  500000314
+  Cycles                           |  685898460 |  685898460 |  685898460 |  685898460
+  IPC                              |       0.73 |       0.73 |       0.73 |       0.73
+  Time (ns)                        |  263807100 |  263807100 |  263807100 |  263807100
+  Idle time (ns)                   |         -6 |       -308 |       -100 |       -121
   Idle time (%)                    |      -0.0% |      -0.0% |      -0.0% |      -0.0%
 Branch predictor stats             |            |            |            |           
-  num correct                      |   65136060 |   65136062 |   65136063 |   65136059
-  num incorrect                    |    1872219 |    1872219 |    1872220 |    1872219
+  num correct                      |   65136059 |   65136100 |   65136097 |   65136100
+  num incorrect                    |    1872219 |    1872221 |    1872220 |    1872221
   misprediction rate               |      2.79% |      2.79% |      2.79% |      2.79%
   mpki                             |       3.74 |       3.74 |       3.74 |       3.74
 TLB Summary                        |            |            |            |           
@@ -28,15 +28,15 @@ TLB Summary                        |            |            |            |
     mpki                           |       0.00 |       0.00 |       0.00 |       0.00
 Cache Summary                      |            |            |            |           
   NUCA cache                       |            |            |            |           
-    num cache accesses             |   16232026 |   19099391 |   14785820 |   19390648
-    num cache misses               |          0 |          0 |          0 |          0
-    miss rate                      |      0.00% |      0.00% |      0.00% |      0.00%
-    mpki                           |       0.00 |       0.00 |       0.00 |       0.00
+    num cache accesses             |   16472100 |   18541909 |   14920532 |   19395181
+    num cache misses               |    2825740 |    2822995 |    2825075 |    2823886
+    miss rate                      |     17.15% |     15.22% |     18.93% |     14.56%
+    mpki                           |       5.65 |       5.65 |       5.65 |       5.65
 DRAM summary                       |            |            |            |           
-  num dram accesses                |   17976806 |          0 |          0 |          0
+  num dram accesses                |   18112063 |          0 |          0 |          0
   average dram access latency (ns) |       0.00 |        inf |        inf |        inf
   average dram queueing delay      |       0.00 |       0.00 |       0.00 |       0.00
 Coherency Traffic                  |            |            |            |           
-  num loads from dram              |    1714687 |    1918486 |    1836988 |    1528198
+  num loads from dram              |    2042573 |    2378690 |    2323339 |    1993281
   num loads from dram cache        |          0 |          0 |          0 |          0
-  num loads from remote cache      |   11446643 |   11598162 |   11609324 |   11601537
+  num loads from remote cache      |   12379823 |   12487001 |   12535357 |   12364064

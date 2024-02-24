@@ -1,8 +1,8 @@
-[SNIPER] (0) Using trace file /root/codes/Victima/traces_small/bigJump.sift
+[SNIPER] (0) Using trace file /root/codes/Victima/traces_small/GraphBIG_BFS_amazon0302.sift
 [SNIPER] Start here
 True
-[SNIPER] Running ['bash', '-c', '/root/codes/Victima/sniper/lib/sniper -c /root/codes/Victima/sniper/config/base.cfg --general/total_cores=1 --general/output_dir=/root/codes/UniNDP-virtuoso/test-test/NDP -g --traceinput/mirror_output=true --config=/root/codes/Victima/sniper/config/nehalem.cfg --config=/root/codes/Victima/sniper/config/utopia_motivation_baseline.cfg --config=/root/codes/Victima/sniper/config/virtual_memory_configs/common_translation.cfg --config=/root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_NDP.cfg --config=/root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_NDP_hbm.cfg --config=/root/codes/Victima/sniper/config/UniNDP/NDP/baseline_NDP_1core_test.cfg -g --traceinput/stop_with_first_app=true -g --traceinput/restart_apps=false -g --traceinput/enabled=true -g --traceinput/emulate_syscalls=false -g --traceinput/num_apps=1 -g --traceinput/thread_0=/root/codes/Victima/traces_small/bigJump.sift']
-<subprocess.Popen object at 0x1534c637ca10>
+[SNIPER] Running ['bash', '-c', '/root/codes/Victima/sniper/lib/sniper -c /root/codes/Victima/sniper/config/base.cfg --general/total_cores=1 --general/output_dir=/root/codes/UniNDP-virtuoso/test/test-test/NDP -g --traceinput/mirror_output=true --config=/root/codes/Victima/sniper/config/nehalem.cfg --config=/root/codes/Victima/sniper/config/utopia_motivation_baseline.cfg --config=/root/codes/Victima/sniper/config/virtual_memory_configs/common_translation.cfg --config=/root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_NDP.cfg --config=/root/codes/Victima/sniper/config/UniNDP/configs/UniNDP_baseline_NDP_hbm.cfg --config=/root/codes/Victima/sniper/config/UniNDP/NDP/baseline_NDP_1core_test.cfg -g --traceinput/stop_with_first_app=true -g --traceinput/restart_apps=false -g --traceinput/enabled=true -g --traceinput/emulate_syscalls=false -g --traceinput/num_apps=1 -g --traceinput/thread_0=/root/codes/Victima/traces_small/GraphBIG_BFS_amazon0302.sift']
+<subprocess.Popen object at 0x1491df482c10>
 Starting simLet's load config
 config_path
 Allocating Simulator
@@ -23,7 +23,7 @@ Creating dtlb_cache cache with 16 sets, 4-way associative, 4096B blocksize
 Registered special metric: L2_TLB_miss_per_page
 Registering cache time series
 Registered special metric: cache_timeseries
-Creating nuca-cache cache with 4 sets, 4-way associative, 64B blocksize
+Creating nuca-cache cache with 1 sets, 16-way associative, 64B blocksize
 Attaching Nuca to PTW
 Core : 0
 Directory type : limited_no_broadcast
@@ -35,20 +35,31 @@ Max Num Sharers : 1
 Initializing cache L 2
 Creating L1-I cache with 64 sets, 8-way associative, 64B blocksize
 Initializing cache L 3
-Creating L1-D cache with 64 sets, 8-way associative, 64B blocksize
+Creating L1-D cache with 4 sets, 4-way associative, 64B blocksize
 Initializing cache L 4
-Creating L2 cache with 4 sets, 4-way associative, 64B blocksize
+Creating L2 cache with 64 sets, 8-way associative, 64B blocksize
+Creating one fake set for L2 cache since metadata cant be cached in L2
 [SNIPER] --------------------------------------------------------------------------------
 [SNIPER] Sniper using SIFT/trace-driven frontend
 [SNIPER] Running full application in DETAILED mode
 [SNIPER] --------------------------------------------------------------------------------
 [SNIPER] Enabling performance models
 [SNIPER] Setting instrumentation mode to DETAILED
+[TRACE:0] ==================================================================
+[TRACE:0] ________ .__ __________.___ ________
+[TRACE:0] / _____/___________ ______ | |________ |/ _____/
+[TRACE:0] / ___ __ __ ____ | | | | _/ / ___
+[TRACE:0] _ | // __ | |_> > Y | _ [TRACE:0] ______ /__| (____ / __/|___| /______ /___|______ /
+[TRACE:0] / /|__| / / /
+[TRACE:0]
+[TRACE:0] ==================================================================
+[TRACE:0] Benchmark: BFS
+[TRACE:0] loading data...
 [TRACE:0] -- DONE --
 [SNIPER] Disabling performance models
-[SNIPER] Leaving ROI after 24.88 seconds
-[SNIPER] Simulated 9.4M instructions, 19.8M cycles, 0.48 IPC
-[SNIPER] Simulation speed 377.3 KIPS (377.3 KIPS / target core - 2650.2ns/instr)
+[SNIPER] Leaving ROI after 464.12 seconds
+[SNIPER] Simulated 100.0M instructions, 110.2M cycles, 0.91 IPC
+[SNIPER] Simulation speed 215.5 KIPS (215.5 KIPS / target core - 4641.3ns/instr)
 [SNIPER] Setting instrumentation mode to FAST_FORWARD
 Logging Nuca ptw data
 Logging Nuca ptw data security
@@ -64,9 +75,9 @@ Logging l1_dcache data expressive
 Logging l2_cache data expressive
 Logging PTW latency heatmap
 Logging L2 TLB miss per page
-73679 0
+22899 0
 inside nested try
 inside try
 0
 [SNIPER] End
-[SNIPER] Elapsed time: 31.72 seconds
+[SNIPER] Elapsed time: 470.77 seconds

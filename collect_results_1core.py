@@ -2,7 +2,7 @@
 import os
 import csv
 
-directories = ['CPU/1core', 'NDP/1core', 'CPU-no-translation/1core', 'NDP-no-translation/1core', 'NDP-common-ddr/1core', 'NDP-no-translation-common-ddr/1core', 'NDP-HBM/1core', 'NDP-no-translation-HBM/1core']
+directories = ['CPU/1core', 'NDP/1core', 'CPU.test/1core', 'NDP.test/1core', 'CPU-no-translation/1core', 'NDP-no-translation/1core', 'CPU-no-translation.test/1core', 'NDP-no-translation.test/1core', 'NDP-common-ddr/1core', 'NDP-no-translation-common-ddr/1core', 'NDP-HBM/1core', 'NDP-no-translation-HBM/1core']
 output_file = 'output_1core.csv'
 frequency_ghz = 2.6
 
