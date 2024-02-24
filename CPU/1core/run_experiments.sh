@@ -23,15 +23,17 @@
 
 # echo "Directories created, scripts copied and updated."
 
+sniper=/root/codes/Victima/sniper/run-sniper
+config=/root/codes/Victima/sniper/config/UniNDP/CPU/baseline_CPU_1core.cfg
 
 
 # List of directories
-dirs=("bfs" "cc" "dlrm" "gc" "gen" "rnd" "sssp" "tc" "xs")
+dirs=("bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs")
 
 # Function to run the script and notify on completion
 run_and_notify() {
     local dir=$1
-    (cd "$dir" && ./test.sh && echo "$dir completed") &
+    (cd "$dir" && $sniper -c $config --traces=/root/codes/Victima/traces/$dir.sift && echo "$dir completed") &
 }
 
 # Run test.sh in each directory in parallel and notify on completion
