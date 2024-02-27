@@ -4,6 +4,14 @@ nuca_*
 ptw_latency_heatmap*
 sim.memorytracker
 sim.stats.sqlite3
+sim.out
+sim.cfg
+sim.info
+sim.stdout
+sim.stats
+std.out
 .sift_done
 slurm*
-
+out
+power.xml
+power.txt

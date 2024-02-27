@@ -26,7 +26,7 @@
 
 
 # List of directories
-dirs=("pr" "bfs" "cc" "dlrm" "gc" "gen" "rnd" "sssp" "tc" "xs")
+dirs=("bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs")
 
 # Function to run the script and notify on completion
 run_and_notify() {
