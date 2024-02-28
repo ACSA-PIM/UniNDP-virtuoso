@@ -96,7 +96,7 @@ def calculate_cache_miss_rate(data, subdir):
 
 for directory in directories:
     for subdir in ['bc', 'bfs', 'cc', 'dlrm', 'gc', 'gen', 'pr', 'rnd', 'sssp', 'tc', 'xs']:
-        out_path = os.path.join(directory, subdir, 'out')
+        out_path = os.path.join(directory, subdir, 'sim.stats')
         sim_out_path = os.path.join(directory, subdir, 'sim.out')
         average_ptw_latency_cycles = 'N/A'
         cycles = 'N/A'

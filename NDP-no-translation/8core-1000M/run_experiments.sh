@@ -35,7 +35,7 @@ dirs=("bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs")
 run_and_notify() {
     local dir=$1
     local trace=${trace_dir}/${dir}.sift
-    (cd "$dir" && $sniper -c $config -s stop-by-icount:1000000000 --traces=${trace},${trace},${trace},${trace},${trace},${trace},${trace},${trace} && echo "$dir completed") &
+    (cd "$dir" && $sniper -c $config -s stop-by-icount:1000000000 --genstats --traces=${trace},${trace},${trace},${trace},${trace},${trace},${trace},${trace} && echo "$dir completed") &
 }
 
 # Run test.sh in each directory in parallel and notify on completion

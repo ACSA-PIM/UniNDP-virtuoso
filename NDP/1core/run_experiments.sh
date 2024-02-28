@@ -33,7 +33,7 @@ dirs=("bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs")
 # Function to run the script and notify on completion
 run_and_notify() {
     local dir=$1
-    (cd "$dir" && $sniper -c $config --traces=/root/codes/Victima/traces/$dir.sift && echo "$dir completed") &
+    (cd "$dir" && $sniper -c $config --genstats --traces=/root/codes/Victima/traces/$dir.sift && echo "$dir completed") &
 }
 
 # Run test.sh in each directory in parallel and notify on completion
