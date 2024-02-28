@@ -49,13 +49,10 @@ def calculate_cache_miss_rate(data, subdir):
 
     for line in data.splitlines():
         key, value_str = line.split('=')
-        first_value = float(value_str.split(',')[0].strip())
-
         is_meta_data = "page-table" in key
-        # print("Line: {}, is_meta_data: {}".format(line, is_meta_data))
-
         cache_levels = ['L2', 'L3', 'nuca-cache', 'cache-remote', 'dram']
         if 'L1-D.loads-where' in key:
+            first_value = float(value_str.split(',')[0].strip())
             for cache_level in cache_levels:
                 if cache_level in key:
                     if cache_level == 'L2':
@@ -80,10 +77,6 @@ def calculate_cache_miss_rate(data, subdir):
             else:
                 total_meta_accesses += first_value
 
-    if subdir == "rnd":
-        print(normal_data_counts)
-        print(meta_data_counts)
-        print(total_normal_accesses)
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
         if total_normal_accesses > 0:
