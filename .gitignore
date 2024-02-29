@@ -16,3 +16,4 @@ out
 power.xml
 power.txt
 *.csv
+search_significant_time.sh
