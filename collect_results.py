@@ -41,7 +41,7 @@ def calculate_average_ptw_latency(data, frequency_ghz):
         average_ptw_latency_cycles = 'N/A'
     return average_ptw_latency_cycles
 
-def calculate_cache_miss_rate(data, subdir):
+def calculate_cache_miss_rate(data, directory, subdir):
     cache_level_mapping = {
         'L2': 'L1',
         'L3': 'L2',
@@ -73,7 +73,7 @@ def calculate_cache_miss_rate(data, subdir):
                 total_loads += first_value
             else:
                 total_meta_accesses += first_value
-                
+        
         if 'L1-D.stores-where' in key:
             first_value = float(value_str.split(',')[0].strip())
             for cache_level in cache_levels:
@@ -82,6 +82,7 @@ def calculate_cache_miss_rate(data, subdir):
                     store_counts[data_count_key] += first_value
                     break
             total_stores += first_value
+    # print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
         if total_loads > 0:
@@ -118,7 +119,7 @@ for directory in directories:
             with open(out_path, 'r') as file:
                 data = file.read()
                 average_ptw_latency_cycles = calculate_average_ptw_latency(data, frequency_ghz)
-                cache_miss_rates = calculate_cache_miss_rate(data, subdir)
+                cache_miss_rates = calculate_cache_miss_rate(data, directory, subdir)
 
         if os.path.exists(sim_out_path):
             with open(sim_out_path, 'r') as file:
