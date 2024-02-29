@@ -21,9 +21,9 @@ frequency_ghz = 2.6
 with open(output_file, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Directory', 'File', 'Total Cycles', 'Average PTW Latency (Cycles)', 
-                     'L1 Miss Rate Normal Data', 'L1 Miss Rate Meta Data',
-                     'L2 Miss Rate Normal Data', 'L2 Miss Rate Meta Data', 
-                     'LLC Miss Rate Normal Data', 'LLC Miss Rate Meta Data'])
+                     'L1 Load Miss Rate', 'L1 Store Miss Rate', 'L1 Miss Rate Meta',
+                     'L2 Load Miss Rate', 'L2 Store Miss Rate','L2 Miss Rate Meta', 
+                     'LLC Load Miss Rate', 'LLC Store Miss Rate', 'LLC Miss Rate Meta'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -42,9 +42,17 @@ def calculate_average_ptw_latency(data, frequency_ghz):
     return average_ptw_latency_cycles
 
 def calculate_cache_miss_rate(data, subdir):
-    normal_data_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
-    meta_data_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
-    total_normal_accesses = 0
+    cache_level_mapping = {
+        'L2': 'L1',
+        'L3': 'L2',
+        'nuca-cache': 'LLC',
+        'cache-remote': 'cache-remote'
+    }
+    load_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
+    store_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
+    meta_data_accesses = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
+    total_loads = 0
+    total_stores = 0
     total_meta_accesses = 0
 
     for line in data.splitlines():
@@ -55,43 +63,47 @@ def calculate_cache_miss_rate(data, subdir):
             first_value = float(value_str.split(',')[0].strip())
             for cache_level in cache_levels:
                 if cache_level in key:
-                    if cache_level == 'L2':
-                        data_count_key = 'L1'
-                    elif cache_level == 'L3':
-                        data_count_key = 'L2'
-                    elif cache_level == 'nuca-cache':
-                        data_count_key = 'LLC'
-                    elif cache_level == 'cache-remote':
-                        data_count_key = 'cache-remote'
-                    else:
-                        data_count_key = 'dram'
-
+                    data_count_key = cache_level_mapping.get(cache_level, 'dram')
                     if is_meta_data:
-                        meta_data_counts[data_count_key] += first_value
+                        meta_data_accesses[data_count_key] += first_value
                     else:
-                        normal_data_counts[data_count_key] += first_value
+                        load_counts[data_count_key] += first_value
                     break
-
             if not is_meta_data:
-                total_normal_accesses += first_value
+                total_loads += first_value
             else:
                 total_meta_accesses += first_value
-
+                
+        if 'L1-D.stores-where' in key:
+            first_value = float(value_str.split(',')[0].strip())
+            for cache_level in cache_levels:
+                if cache_level in key:
+                    data_count_key = cache_level_mapping.get(cache_level, 'dram')
+                    store_counts[data_count_key] += first_value
+                    break
+            total_stores += first_value
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
-        if total_normal_accesses > 0:
-            base_accesses = total_normal_accesses - normal_data_counts['L1'] if cache_type != 'L1' else total_normal_accesses
-            miss_rate_normal = (base_accesses - normal_data_counts[cache_type]) / base_accesses if base_accesses > 0 else 0
-            results['{}_misses_rate_normal_data'.format(cache_type)] = '{:.4f}'.format(miss_rate_normal)
+        if total_loads > 0:
+            base_loads = total_loads - load_counts['L1'] if cache_type != 'L1' else total_loads
+            load_miss_rate_normal = (base_loads - load_counts[cache_type]) / base_loads if base_loads > 0 else 0
+            results['{}_load_miss_rate'.format(cache_type)] = '{:.4f}'.format(load_miss_rate_normal)
         else:
-            results['{}_misses_rate_normal_data'.format(cache_type)] = 'N/A'
-        
+            results['{}_load_miss_rate'.format(cache_type)] = 'N/A'
+
+        if total_stores > 0:
+            base_stores = total_stores - store_counts['L1'] if cache_type != 'L1' else total_stores
+            store_miss_rate_normal = (base_stores - store_counts[cache_type]) / base_stores if base_stores > 0 else 0
+            results['{}_store_miss_rate'.format(cache_type)] = '{:.4f}'.format(store_miss_rate_normal)
+        else:
+            results['{}_store_miss_rate'.format(cache_type)] = 'N/A'
+                
         if total_meta_accesses > 0:
-            base_accesses = total_meta_accesses - meta_data_counts['L1'] if cache_type != 'L1' else total_meta_accesses
-            miss_rate_meta = (base_accesses - meta_data_counts[cache_type]) / base_accesses if base_accesses > 0 else 0
-            results['{}_misses_rate_meta_data'.format(cache_type)] = '{:.4f}'.format(miss_rate_meta)
+            base_accesses = total_meta_accesses - meta_data_accesses['L1'] if cache_type != 'L1' else total_meta_accesses
+            miss_rate_meta = (base_accesses - meta_data_accesses[cache_type]) / base_accesses if base_accesses > 0 else 0
+            results['{}_miss_rate_meta_data'.format(cache_type)] = '{:.4f}'.format(miss_rate_meta)
         else:
-            results['{}_misses_rate_meta_data'.format(cache_type)] = 'N/A'
+            results['{}_miss_rate_meta_data'.format(cache_type)] = 'N/A'
     return results
 
 for directory in directories:
@@ -118,9 +130,12 @@ for directory in directories:
         with open(output_file, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([directory, subdir, cycles, average_ptw_latency_cycles,
-                             cache_miss_rates.get('L1_misses_rate_normal_data', 'N/A'),
-                             cache_miss_rates.get('L1_misses_rate_meta_data', 'N/A'),
-                             cache_miss_rates.get('L2_misses_rate_normal_data', 'N/A'),
-                             cache_miss_rates.get('L2_misses_rate_meta_data', 'N/A'),
-                             cache_miss_rates.get('LLC_misses_rate_normal_data', 'N/A'),
-                             cache_miss_rates.get('LLC_misses_rate_meta_data', 'N/A')])
+                             cache_miss_rates.get('L1_load_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L1_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L1_miss_rate_meta_data', 'N/A'),
+                             cache_miss_rates.get('L2_load_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L2_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L2_miss_rate_meta_data', 'N/A'),
+                             cache_miss_rates.get('LLC_load_miss_rate', 'N/A'),
+                             cache_miss_rates.get('LLC_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('LLC_miss_rate_meta_data', 'N/A')])
