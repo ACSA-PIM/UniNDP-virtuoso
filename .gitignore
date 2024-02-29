@@ -8,7 +8,7 @@ sim.out
 sim.cfg
 sim.info
 sim.stdout
-sim.stats
+/* sim.stats */
 std.out
 .sift_done
 slurm*
