@@ -13,6 +13,8 @@ directories = [
     'NDP/{}'.format(core_configuration),
     'CPU-no-translation/{}'.format(core_configuration),
     'NDP-no-translation/{}'.format(core_configuration),
+    'NDP-2MBpage/{}'.format(core_configuration),
+    'NDP-2MBpage-no-translation/{}'.format(core_configuration),
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
@@ -82,7 +84,7 @@ def calculate_cache_miss_rate(data, directory, subdir):
                     store_counts[data_count_key] += first_value
                     break
             total_stores += first_value
-    # print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
+    print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
         if total_loads > 0:
@@ -110,7 +112,6 @@ def calculate_cache_miss_rate(data, directory, subdir):
 for directory in directories:
     for subdir in ['bc', 'bfs', 'cc', 'dlrm', 'gc', 'gen', 'pr', 'rnd', 'sssp', 'tc', 'xs']:
         out_path = os.path.join(directory, subdir, 'sim.stats')
-        sim_out_path = os.path.join(directory, subdir, 'sim.out')
         average_ptw_latency_cycles = 'N/A'
         cycles = 'N/A'
         cache_miss_rates = {}
@@ -120,13 +121,9 @@ for directory in directories:
                 data = file.read()
                 average_ptw_latency_cycles = calculate_average_ptw_latency(data, frequency_ghz)
                 cache_miss_rates = calculate_cache_miss_rate(data, directory, subdir)
-
-        if os.path.exists(sim_out_path):
-            with open(sim_out_path, 'r') as file:
-                data = file.read()
                 for line in data.splitlines():
-                    if 'Cycles' in line:
-                        cycles = line.split('|')[1].strip()
+                        if 'performance_model.cycle_count' in line:
+                            cycles = line.split('=')[1].strip().split(',')[0].strip()
 
         with open(output_file, 'a', newline='') as file:
             writer = csv.writer(file)
