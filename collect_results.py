@@ -25,7 +25,8 @@ with open(output_file, 'w', newline='') as file:
     writer.writerow(['Directory', 'File', 'Total Cycles', 'Average PTW Latency (Cycles)', 
                      'L1 Load Miss Rate', 'L1 Store Miss Rate', 'L1 Miss Rate Meta',
                      'L2 Load Miss Rate', 'L2 Store Miss Rate','L2 Miss Rate Meta', 
-                     'LLC Load Miss Rate', 'LLC Store Miss Rate', 'LLC Miss Rate Meta', 'pwc_L1 Miss Rate', 'pwc_L2 Miss Rate', 'pwc_L3 Miss Rate'])
+                     'LLC Load Miss Rate', 'LLC Store Miss Rate', 'LLC Miss Rate Meta', 
+                     'pwc_L3 Miss Rate', 'pwc_L2 Miss Rate', 'pwc_L1 Miss Rate'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -84,7 +85,7 @@ def calculate_cache_miss_rate(data, directory, subdir):
                     store_counts[data_count_key] += first_value
                     break
             total_stores += first_value
-    print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
+    # print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
         if total_loads > 0:
@@ -124,12 +125,10 @@ def calculate_pwc_miss_rate(data, directory, subdir):
         for cache_level in cache_levels:
             if cache_level + '.access' in key:
                 data_count_key = cache_level_mapping.get(cache_level)
-                #print(directory, subdir, first_value)
                 access_counts[data_count_key] += first_value
             if cache_level + '.miss' in key:
                 data_count_key = cache_level_mapping.get(cache_level)
                 miss_counts[data_count_key] += first_value
-    #print(directory, subdir, "access count: ", access_counts['pwc_L1'])
     results = {}
     for cache_type in ['pwc_L1', 'pwc_L2', 'pwc_L3']:
         if access_counts[cache_type] > 0:
@@ -168,6 +167,6 @@ for directory in directories:
                              cache_miss_rates.get('LLC_load_miss_rate', 'N/A'),
                              cache_miss_rates.get('LLC_store_miss_rate', 'N/A'),
                              cache_miss_rates.get('LLC_miss_rate_meta_data', 'N/A'),
-                             pwc_miss_rates.get('pwc_L1_miss_rate', 'N/A'),
+                             pwc_miss_rates.get('pwc_L3_miss_rate', 'N/A'),
                              pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
-                             pwc_miss_rates.get('pwc_L3_miss_rate', 'N/A')])
+                             pwc_miss_rates.get('pwc_L1_miss_rate', 'N/A')])
