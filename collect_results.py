@@ -26,7 +26,7 @@ with open(output_file, 'w', newline='') as file:
                      'L1 Load Miss Rate', 'L1 Store Miss Rate', 'L1 Miss Rate Meta',
                      'L2 Load Miss Rate', 'L2 Store Miss Rate','L2 Miss Rate Meta', 
                      'LLC Load Miss Rate', 'LLC Store Miss Rate', 'LLC Miss Rate Meta', 
-                     'pwc_L3 Miss Rate', 'pwc_L2 Miss Rate', 'pwc_L1 Miss Rate'])
+                     'pwc_L4 Miss Rate', 'pwc_L3 Miss Rate', 'pwc_L2 Miss Rate'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -111,26 +111,21 @@ def calculate_cache_miss_rate(data, directory, subdir):
     return results
 
 def calculate_pwc_miss_rate(data, directory, subdir):
-    cache_level_mapping = {
-        'pwc_L2': 'pwc_L1',
-        'pwc_L3': 'pwc_L2',
-        'pwc_L4': 'pwc_L3',
-    }
-    access_counts = {'pwc_L1': 0, 'pwc_L2': 0, 'pwc_L3': 0}
-    miss_counts = {'pwc_L1': 0, 'pwc_L2': 0, 'pwc_L3': 0}
+    access_counts = {'pwc_L2': 0, 'pwc_L3': 0, 'pwc_L4': 0}
+    miss_counts = {'pwc_L2': 0, 'pwc_L3': 0, 'pwc_L4': 0}
     for line in data.splitlines():
         key, value_str = line.split('=')
         cache_levels = ['pwc_L2', 'pwc_L3', 'pwc_L4']
         first_value = float(value_str.split(',')[0].strip())
         for cache_level in cache_levels:
             if cache_level + '.access' in key:
-                data_count_key = cache_level_mapping.get(cache_level)
+                data_count_key = cache_level
                 access_counts[data_count_key] += first_value
             if cache_level + '.miss' in key:
-                data_count_key = cache_level_mapping.get(cache_level)
+                data_count_key = cache_level
                 miss_counts[data_count_key] += first_value
     results = {}
-    for cache_type in ['pwc_L1', 'pwc_L2', 'pwc_L3']:
+    for cache_type in ['pwc_L2', 'pwc_L3', 'pwc_L4']:
         if access_counts[cache_type] > 0:
             miss_rate_normal = miss_counts[cache_type] / access_counts[cache_type] if access_counts[cache_type] > 0 else 0
             results['{}_miss_rate'.format(cache_type)] = '{:.4f}'.format(miss_rate_normal)
@@ -167,6 +162,6 @@ for directory in directories:
                              cache_miss_rates.get('LLC_load_miss_rate', 'N/A'),
                              cache_miss_rates.get('LLC_store_miss_rate', 'N/A'),
                              cache_miss_rates.get('LLC_miss_rate_meta_data', 'N/A'),
+                             pwc_miss_rates.get('pwc_L4_miss_rate', 'N/A'),
                              pwc_miss_rates.get('pwc_L3_miss_rate', 'N/A'),
-                             pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
-                             pwc_miss_rates.get('pwc_L1_miss_rate', 'N/A')])
+                             pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A')])
