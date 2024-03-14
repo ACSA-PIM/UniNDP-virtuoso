@@ -28,12 +28,12 @@ config=/root/codes/Victima/sniper/config/UniNDP/NDP/baseline_NDP_1core_no_transl
 
 
 # List of directories
-dirs=("bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs")
+dirs=("bc-test" "bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs" "xs-test")
 
 # Function to run the script and notify on completion
 run_and_notify() {
     local dir=$1
-    (cd "$dir" && $sniper -c $config --genstats --traces=/root/codes/Victima/traces/$dir.sift && echo "$dir completed") &
+    (cd "$dir" && $sniper -c $config -s stop-by-icount:500000000 --genstats --traces=/root/codes/Victima/traces/$dir.sift && echo "$dir completed") &
 }
 
 # Run test.sh in each directory in parallel and notify on completion
