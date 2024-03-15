@@ -17,3 +17,5 @@ power.xml
 power.txt
 *.csv
 search_significant_time.sh
+sim.scripts.py
+app_0.log
