@@ -2,6 +2,7 @@
 import os
 import sys
 import csv
+import subprocess
 
 if len(sys.argv) < 2:
     sys.exit(1)
@@ -14,7 +15,8 @@ directories = [
     'CPU-no-translation/{}'.format(core_configuration),
     'NDP-no-translation/{}'.format(core_configuration),
     'NDP-2MBpage/{}'.format(core_configuration),
-    'NDP-2MBpage-no-translation/{}'.format(core_configuration),
+    'CPU-cuckoo/{}'.format(core_configuration),
+    'NDP-cuckoo/{}'.format(core_configuration),
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
@@ -23,10 +25,11 @@ frequency_ghz = 2.6
 with open(output_file, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Directory', 'File', 'Total Cycles', 'Average PTW Latency (Cycles)', 
-                     'L1 Load Miss Rate', 'L1 Store Miss Rate', 'L1 Miss Rate Meta',
-                     'L2 Load Miss Rate', 'L2 Store Miss Rate','L2 Miss Rate Meta', 
-                     'LLC Load Miss Rate', 'LLC Store Miss Rate', 'LLC Miss Rate Meta', 
-                     'pwc_L4 Miss Rate', 'pwc_L3 Miss Rate', 'pwc_L2 Miss Rate'])
+                     'L1 Miss Rate Normal', 'L1 Miss Rate Meta',
+                     'L2 Miss Rate Normal', 'L2 Miss Rate Meta', 
+                     'LLC Miss Rate Normal', 'LLC Miss Rate Meta', 
+                     'pwc_L4 Miss Rate', 'pwc_L3 Miss Rate', 'pwc_L2 Miss Rate',
+                     'DRAM Rank Coefficient of Variation', 'DRAM BG Coefficient of Variation'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -54,6 +57,7 @@ def calculate_cache_miss_rate(data, directory, subdir):
     load_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
     store_counts = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
     meta_data_accesses = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
+    normal_data_accesses = {'L1': 0, 'L2': 0, 'LLC': 0, 'cache-remote': 0, 'dram':0}
     total_loads = 0
     total_stores = 0
     total_meta_accesses = 0
@@ -85,23 +89,17 @@ def calculate_cache_miss_rate(data, directory, subdir):
                     store_counts[data_count_key] += first_value
                     break
             total_stores += first_value
-    # print(directory, subdir, "total loads: ", total_loads, " total stores: ", total_stores, " total meata-data accesses: ", total_meta_accesses)        
+    for key in load_counts:
+        normal_data_accesses[key] = load_counts[key] + store_counts[key]
+    total_normal_accesses = total_loads + total_stores
     results = {}
     for cache_type in ['L1', 'L2', 'LLC']:
-        if total_loads > 0:
-            base_loads = total_loads - load_counts['L1'] if cache_type != 'L1' else total_loads
-            load_miss_rate_normal = (base_loads - load_counts[cache_type]) / base_loads if base_loads > 0 else 0
-            results['{}_load_miss_rate'.format(cache_type)] = '{:.4f}'.format(load_miss_rate_normal)
+        if total_normal_accesses > 0:
+            base_accesses = total_normal_accesses - normal_data_accesses['L1'] if cache_type != 'L1' else total_normal_accesses
+            miss_rate_normal = (base_accesses - normal_data_accesses[cache_type]) / base_accesses if base_accesses > 0 else 0
+            results['{}_miss_rate_normal_data'.format(cache_type)] = '{:.4f}'.format(miss_rate_normal)
         else:
-            results['{}_load_miss_rate'.format(cache_type)] = 'N/A'
-
-        if total_stores > 0:
-            base_stores = total_stores - store_counts['L1'] if cache_type != 'L1' else total_stores
-            store_miss_rate_normal = (base_stores - store_counts[cache_type]) / base_stores if base_stores > 0 else 0
-            results['{}_store_miss_rate'.format(cache_type)] = '{:.4f}'.format(store_miss_rate_normal)
-        else:
-            results['{}_store_miss_rate'.format(cache_type)] = 'N/A'
-                
+            results['{}_miss_rate_normal_data'.format(cache_type)] = 'N/A'                
         if total_meta_accesses > 0:
             base_accesses = total_meta_accesses - meta_data_accesses['L1'] if cache_type != 'L1' else total_meta_accesses
             miss_rate_meta = (base_accesses - meta_data_accesses[cache_type]) / base_accesses if base_accesses > 0 else 0
@@ -133,6 +131,15 @@ def calculate_pwc_miss_rate(data, directory, subdir):
             results['{}_miss_rate'.format(cache_type)] = 'N/A'
     return results
 
+def get_dram_coefficient_of_variation(sim_stats_path):
+    # Call the external script and parse its output
+    result = subprocess.run(["calculate_dram_time_coefficient_of_variance.sh", sim_stats_path], capture_output=True, text=True)
+    output = result.stdout.strip()
+    lines = output.split('\n')
+    dram_rank_cv = lines[0].split(': ')[1].rstrip('%')
+    dram_bg_cv = lines[1].split(': ')[1].rstrip('%')
+    return dram_rank_cv, dram_bg_cv
+
 for directory in directories:
     for subdir in ['bc', 'bfs', 'cc', 'dlrm', 'gc', 'gen', 'pr', 'rnd', 'sssp', 'tc', 'xs']:
         out_path = os.path.join(directory, subdir, 'sim.stats')
@@ -140,12 +147,15 @@ for directory in directories:
         cycles = 'N/A'
         cache_miss_rates = {}
         pwc_miss_rates = {}
+        dram_rank_cv = 'N/A'
+        dram_bg_cv = 'N/A'
         if os.path.exists(out_path):
             with open(out_path, 'r') as file:
                 data = file.read()
                 average_ptw_latency_cycles = calculate_average_ptw_latency(data, frequency_ghz)
                 cache_miss_rates = calculate_cache_miss_rate(data, directory, subdir)
                 pwc_miss_rates = calculate_pwc_miss_rate(data, directory, subdir)
+                dram_rank_cv, dram_bg_cv = get_dram_coefficient_of_variation(out_path)
                 for line in data.splitlines():
                         if 'performance_model.cycle_count' in line:
                             cycles = line.split('=')[1].strip().split(',')[0].strip()
@@ -153,15 +163,13 @@ for directory in directories:
         with open(output_file, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([directory, subdir, cycles, average_ptw_latency_cycles,
-                             cache_miss_rates.get('L1_load_miss_rate', 'N/A'),
-                             cache_miss_rates.get('L1_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L1_miss_rate_normal_data', 'N/A'),
                              cache_miss_rates.get('L1_miss_rate_meta_data', 'N/A'),
-                             cache_miss_rates.get('L2_load_miss_rate', 'N/A'),
-                             cache_miss_rates.get('L2_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('L2_miss_rate_normal_data', 'N/A'),
                              cache_miss_rates.get('L2_miss_rate_meta_data', 'N/A'),
-                             cache_miss_rates.get('LLC_load_miss_rate', 'N/A'),
-                             cache_miss_rates.get('LLC_store_miss_rate', 'N/A'),
+                             cache_miss_rates.get('LLC_miss_rate_normal_data', 'N/A'),
                              cache_miss_rates.get('LLC_miss_rate_meta_data', 'N/A'),
                              pwc_miss_rates.get('pwc_L4_miss_rate', 'N/A'),
                              pwc_miss_rates.get('pwc_L3_miss_rate', 'N/A'),
-                             pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A')])
+                             pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
+                             dram_rank_cv, dram_bg_cv])
