@@ -32,7 +32,8 @@ with open(output_file, 'w', newline='') as file:
                      'DRAM Rank Total Time CoV', 'DRAM BG Total Time CoV', 'DRAM Rank Total Time MAX', 'DRAM BG Total Time MAX',
                      'DRAM Rank Request CoV', 'DRAM BG Request CoV', 'DRAM Rank Request MAX', 'DRAM BG Request MAX',
                      'DRAM Rank Delay CoV', 'DRAM BG Delay CoV', 'DRAM Rank Delay MAX', 'DRAM BG Delay MAX',
-                     'Uncore-request'])
+                     'Uncore-request',
+                     'STLB miss rate'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -49,6 +50,16 @@ def calculate_average_ptw_latency(data, frequency_ghz):
     else:
         average_ptw_latency_cycles = 'N/A'
     return average_ptw_latency_cycles
+
+def calculate_STLB_miss_rate(data):
+    for line in data.splitlines():
+        if line.startswith('stlb.access'):
+            access_time = int(line.split('=')[1].split(',')[0].strip())
+        if line.startswith('stlb.miss'):
+            miss_time = int(line.split('=')[1].split(',')[0].strip())
+    if access_time == 0:
+        return 'N/A'
+    return miss_time / access_time
 
 def calculate_cache_miss_rate(data, directory, subdir):
     cache_level_mapping = {
@@ -180,6 +191,7 @@ for directory in directories:
         dram_rank_delay_max = 'N/A'
         dram_bg_delay_max = 'N/A'    
         llc_uncore_requests = 'N/A'
+        stlb_miss_rate = 'N/A'
         if os.path.exists(out_path):
             with open(out_path, 'r') as file:
                 data = file.read()
@@ -188,6 +200,7 @@ for directory in directories:
                 pwc_miss_rates = calculate_pwc_miss_rate(data, directory, subdir)
                 dram_rank_total_time_cv, dram_bg_total_time_cv, dram_rank_total_time_max, dram_bg_total_time_max, dram_rank_request_cv, dram_bg_request_cv, dram_rank_request_max, dram_bg_request_max, dram_rank_delay_cv, dram_bg_delay_cv, dram_rank_delay_max, dram_bg_delay_max, llc_uncore_requests = get_dram_coefficient_of_variation(out_path)
                 llc_uncore_requests = get_llc_uncore_requests_first_value(data)
+                stlb_miss_rate = calculate_STLB_miss_rate(data)
                 for line in data.splitlines():
                         if 'performance_model.cycle_count' in line:
                             cycles = line.split('=')[1].strip().split(',')[0].strip()
@@ -205,4 +218,5 @@ for directory in directories:
                              pwc_miss_rates.get('pwc_L3_miss_rate', 'N/A'),
                              pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
                              dram_rank_total_time_cv, dram_bg_total_time_cv, dram_rank_total_time_max, dram_bg_total_time_max, dram_rank_request_cv, dram_bg_request_cv, dram_rank_request_max, dram_bg_request_max, dram_rank_delay_cv, dram_bg_delay_cv, dram_rank_delay_max, dram_bg_delay_max,
-                             llc_uncore_requests])
+                             llc_uncore_requests,
+                             stlb_miss_rate])
