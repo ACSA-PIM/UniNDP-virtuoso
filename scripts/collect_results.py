@@ -10,16 +10,17 @@ if len(sys.argv) < 2:
 core_configuration = sys.argv[1]
 
 directories = [
-    '../CPU/{}'.format(core_configuration),
-    '../NDP/{}'.format(core_configuration),
-    '../CPU-no-translation/{}'.format(core_configuration),
-    '../NDP-no-translation/{}'.format(core_configuration),
-    '../CPU-2MBpage/{}'.format(core_configuration),
-    '../NDP-2MBpage/{}'.format(core_configuration),
-    '../CPU-cuckoo/{}'.format(core_configuration),
-    '../NDP-cuckoo/{}'.format(core_configuration),
-    '../CPU-potm/{}'.format(core_configuration),
-    '../NDP-potm/{}'.format(core_configuration)
+    'CPU/{}'.format(core_configuration),
+    'NDP/{}'.format(core_configuration),
+    'CPU-no-translation/{}'.format(core_configuration),
+    'NDP-no-translation/{}'.format(core_configuration),
+    'CPU-2MBpage/{}'.format(core_configuration),
+    'NDP-2MBpage/{}'.format(core_configuration),
+    'CPU-cuckoo/{}'.format(core_configuration),
+    'NDP-cuckoo/{}'.format(core_configuration),
+    'CPU-potm/{}'.format(core_configuration),
+    'NDP-potm/{}'.format(core_configuration)
+    # 'NDP-cuckoo-potm/{}'.format(core_configuration)
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
@@ -160,7 +161,7 @@ def calculate_pwc_miss_rate(data, directory, subdir):
 
 def get_dram_coefficient_of_variation(sim_stats_path):
     # Call the external script and parse its output
-    result = subprocess.run(["./calculate_dram_time_coefficient_of_variance.sh", sim_stats_path], capture_output=True, text=True)
+    result = subprocess.run(["calculate_dram_time_coefficient_of_variance.sh", sim_stats_path], capture_output=True, text=True)
     output = result.stdout.strip()
     lines = output.split('\n')
     dram_rank_total_time_cv =  lines[0].split(': ')[1].rstrip('%')
@@ -206,6 +207,7 @@ for directory in directories:
         llc_uncore_requests = 'N/A'
         stlb_miss_rate = 'N/A'
         stlb_miss = 'N/A'
+        stlb_MPKI = 'N/A'
         if os.path.exists(out_path):
             with open(out_path, 'r') as file:
                 data = file.read()
