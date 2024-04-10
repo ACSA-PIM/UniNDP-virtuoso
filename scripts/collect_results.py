@@ -10,15 +10,16 @@ if len(sys.argv) < 2:
 core_configuration = sys.argv[1]
 
 directories = [
-    'CPU/{}'.format(core_configuration),
-    'NDP/{}'.format(core_configuration),
-    'CPU-no-translation/{}'.format(core_configuration),
-    'NDP-no-translation/{}'.format(core_configuration),
-    'NDP-2MBpage/{}'.format(core_configuration),
-    'CPU-cuckoo/{}'.format(core_configuration),
-    'NDP-cuckoo/{}'.format(core_configuration),
-    'CPU-potm/{}'.format(core_configuration),
-    'NDP-potm/{}'.format(core_configuration),
+    '../CPU/{}'.format(core_configuration),
+    '../NDP/{}'.format(core_configuration),
+    '../CPU-no-translation/{}'.format(core_configuration),
+    '../NDP-no-translation/{}'.format(core_configuration),
+    '../CPU-2MBpage/{}'.format(core_configuration),
+    '../NDP-2MBpage/{}'.format(core_configuration),
+    '../CPU-cuckoo/{}'.format(core_configuration),
+    '../NDP-cuckoo/{}'.format(core_configuration),
+    '../CPU-potm/{}'.format(core_configuration),
+    '../NDP-potm/{}'.format(core_configuration)
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
@@ -62,6 +63,16 @@ def calculate_STLB_miss_rate(data):
     if access_time == 0:
         return 'N/A'
     return miss_time / access_time
+
+def calculate_STLB_MPKI(data):
+    for line in data.splitlines():
+        if line.startswith('stlb.access'):
+            access_time = int(line.split('=')[1].split(',')[0].strip())
+        if line.startswith('stlb.miss'):
+            miss_time = int(line.split('=')[1].split(',')[0].strip())
+    if access_time == 0:
+        return 'N/A'
+    return miss_time / 500000000
 
 def calculate_cache_miss_rate(data, directory, subdir):
     cache_level_mapping = {
@@ -149,7 +160,7 @@ def calculate_pwc_miss_rate(data, directory, subdir):
 
 def get_dram_coefficient_of_variation(sim_stats_path):
     # Call the external script and parse its output
-    result = subprocess.run(["calculate_dram_time_coefficient_of_variance.sh", sim_stats_path], capture_output=True, text=True)
+    result = subprocess.run(["./calculate_dram_time_coefficient_of_variance.sh", sim_stats_path], capture_output=True, text=True)
     output = result.stdout.strip()
     lines = output.split('\n')
     dram_rank_total_time_cv =  lines[0].split(': ')[1].rstrip('%')
@@ -194,6 +205,7 @@ for directory in directories:
         dram_bg_delay_max = 'N/A'    
         llc_uncore_requests = 'N/A'
         stlb_miss_rate = 'N/A'
+        stlb_miss = 'N/A'
         if os.path.exists(out_path):
             with open(out_path, 'r') as file:
                 data = file.read()
@@ -203,6 +215,7 @@ for directory in directories:
                 dram_rank_total_time_cv, dram_bg_total_time_cv, dram_rank_total_time_max, dram_bg_total_time_max, dram_rank_request_cv, dram_bg_request_cv, dram_rank_request_max, dram_bg_request_max, dram_rank_delay_cv, dram_bg_delay_cv, dram_rank_delay_max, dram_bg_delay_max, llc_uncore_requests = get_dram_coefficient_of_variation(out_path)
                 llc_uncore_requests = get_llc_uncore_requests_first_value(data)
                 stlb_miss_rate = calculate_STLB_miss_rate(data)
+                stlb_MPKI = calculate_STLB_MPKI(data)
                 for line in data.splitlines():
                         if 'performance_model.cycle_count' in line:
                             cycles = line.split('=')[1].strip().split(',')[0].strip()
@@ -221,4 +234,6 @@ for directory in directories:
                              pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
                              dram_rank_total_time_cv, dram_bg_total_time_cv, dram_rank_total_time_max, dram_bg_total_time_max, dram_rank_request_cv, dram_bg_request_cv, dram_rank_request_max, dram_bg_request_max, dram_rank_delay_cv, dram_bg_delay_cv, dram_rank_delay_max, dram_bg_delay_max,
                              llc_uncore_requests,
-                             stlb_miss_rate])
+                             stlb_miss_rate,
+                             stlb_MPKI
+                             ])
