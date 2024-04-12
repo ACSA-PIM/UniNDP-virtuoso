@@ -29,7 +29,7 @@ trace_dir=/root/codes/Victima/traces
 
 
 # List of directories
-dirs=("bc-test" "bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "xs" "xs-test")
+dirs=("bc-test" "bc" "bfs" "cc" "dlrm" "gc" "gen" "pr" "rnd" "sssp" "tc" "xs" "xs-test")
 
 # Function to run the script and notify on completion
 run_and_notify() {
