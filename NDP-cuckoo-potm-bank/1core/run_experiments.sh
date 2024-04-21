@@ -24,7 +24,7 @@
 # echo "Directories created, scripts copied and updated."
 
 sniper=/root/codes/Victima/sniper/run-sniper
-config=/root/codes/Victima/sniper/config/UniNDP/NDP/baseline_NDP_1core_cuckoo_potm.cfg
+config=/root/codes/Victima/sniper/config/UniNDP/NDP/baseline_NDP_1core_cuckoo_potm_bank.cfg
 trace_dir=/root/codes/Victima/traces
 
 # List of directories
