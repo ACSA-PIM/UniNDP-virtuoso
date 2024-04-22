@@ -20,7 +20,9 @@ directories = [
     'NDP-cuckoo/{}'.format(core_configuration),
     'CPU-potm/{}'.format(core_configuration),
     'NDP-potm/{}'.format(core_configuration),
-    'NDP-cuckoo-potm/{}'.format(core_configuration)
+    'NDP-cuckoo-potm-channel/{}'.format(core_configuration),
+    'NDP-cuckoo-potm-bank/{}'.format(core_configuration),
+    'NDP-cuckoo-potm-normal/{}'.format(core_configuration)
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
