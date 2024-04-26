@@ -13,8 +13,6 @@ std.out
 .sift_done
 slurm*
 out
-power.xml
-power.txt
 *.csv
 search_significant_time.sh
 sim.scripts.py
