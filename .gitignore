@@ -7,7 +7,7 @@ sim.stats.sqlite3
 sim.out
 /* sim.cfg */
 sim.info
-sim.stdout
+/* sim.stdout */
 /* sim.stats */
 std.out
 .sift_done
