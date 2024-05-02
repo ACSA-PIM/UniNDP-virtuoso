@@ -1,24 +1,26 @@
-<!-- McPAT interface--><component id="root" name="root">
+<?xml version="1.0" ?>
+<!-- McPAT interface-->
+<component id="root" name="root">
 	<component id="system" name="system">
 		<!--McPAT will skip the components if number is set to 0 -->
 		<param name="number_of_cores" value="1"/>
 		<param name="number_of_L1Directories" value="0"/>
 		<param name="number_of_L2Directories" value="0"/>
-		<param name="number_of_L2s" value="0"/> <!-- This number means how many L2 clusters in each cluster there can be multiple banks/ports -->
-		<param name="Private_L2" value="0"/>
-		<param name="number_of_L3s" value="0"/> <!-- This number means how many L3 clusters -->
+		<param name="number_of_L2s" value="1"/> <!-- This number means how many L2 clusters in each cluster there can be multiple banks/ports -->
+		<param name="Private_L2" value ="1"/>
+		<param name="number_of_L3s" value="1"/> <!-- This number means how many L3 clusters -->
 		<param name="number_of_NoCs" value="1"/>
-		<param name="homogeneous_cores" value="1"/><!--1 means homo -->
-		<param name="homogeneous_L2s" value="1"/>
+		<param name="homogeneous_cores" value="0"/><!--1 means homo -->
+		<param name="homogeneous_L2s" value="0"/>
 		<param name="homogeneous_L1Directories" value="0"/>
 		<param name="homogeneous_L2Directories" value="0"/>
-		<param name="homogeneous_L3s" value="1"/>
+		<param name="homogeneous_L3s" value="0"/>
 		<param name="homogeneous_ccs" value="1"/><!--cache coherece hardware -->
 		<param name="homogeneous_NoCs" value="1"/>
 		<param name="core_tech_node" value="45"/><!-- nm -->
-		<param name="target_core_clockrate" value="2600"/><!--MHz -->
+		<param name="target_core_clockrate" value='2600'/><!--MHz -->
 		<param name="temperature" value="330"/> <!-- Kelvin -->
-		<param name="number_cache_levels" value="1"/>
+		<param name="number_cache_levels" value="3"/>
 		<param name="interconnect_projection_type" value="0"/><!--0: agressive wire technology; 1: conservative wire technology -->
 		<param name="device_type" value="0"/><!--0: HP(High Performance Type); 1: LSTP(Low standby power) 2: LOP (Low Operating Power)  -->
 		<param name="longer_channel_device" value="1"/><!-- 0 no use; 1 use when approperiate -->
@@ -27,15 +29,15 @@
 		<param name="virtual_address_width" value="64"/>
 		<param name="physical_address_width" value="52"/>
 		<param name="virtual_memory_page_size" value="4096"/>
-		<stat name="total_cycles" value="3737531460"/>
+		<stat name="total_cycles" value="3769722320"/>
 		<stat name="idle_cycles" value="0"/>
-		<stat name="busy_cycles" value="3737531460"/>
+		<stat name="busy_cycles"  value="3769722320"/>
 			<!--This page size(B) is complete different from the page size in Main memo secction. this page size is the size of 
 			virtual memory from OS/Archi perspective; the page size in Main memo secction is the actuall physical line in a DRAM bank  -->
 		<!-- *********************** cores ******************* -->
 		<component id="system.core0" name="core0">
 		<!-- Core property -->
-			<param name="clock_rate" value="2600"/>
+			<param name="clock_rate" value='2600'/>
 			<param name="vdd" value="1.200000"/><!-- 0 means using ITRS default vdd -->
 			<param name="opt_local" value="1"/>
 			<param name="instruction_length" value="32"/>
@@ -129,9 +131,9 @@
 			<stat name="committed_instructions" value="499999814"/>
 			<stat name="committed_int_instructions" value="388552551"/>
 			<stat name="committed_fp_instructions" value="0"/>
-			<stat name="total_cycles" value="3737531460"/>
-			<stat name="idle_cycles" value="-102"/>
-			<stat name="busy_cycles" value="3737531562"/>
+			<stat name="total_cycles" value="3769722320"/>
+			<stat name="idle_cycles" value="-87"/>
+			<stat name="busy_cycles"  value="3769722407"/>
 			<!-- instruction buffer stats -->
 			<!-- ROB stats, both RS and Phy based OoOs have ROB
 			performance simulator should capture the difference on accesses,
@@ -178,14 +180,14 @@
 			Future versions of McPAT may be able to reason the implicite access
 			based on param and stats of last level cache
 			The same rule applies to all cache access stats too!  -->
-			<stat name="IFU_duty_cycle" value="0.133778"/>
-			<stat name="LSU_duty_cycle" value="0.057177"/>
-			<stat name="MemManU_I_duty_cycle" value="0.133778"/>
-			<stat name="MemManU_D_duty_cycle" value="0.057177"/>
-			<stat name="ALU_duty_cycle" value="0.022296"/>
+			<stat name="IFU_duty_cycle" value="0.132636"/>
+			<stat name="LSU_duty_cycle" value="0.056689"/>
+			<stat name="MemManU_I_duty_cycle" value="0.132636"/>
+			<stat name="MemManU_D_duty_cycle" value="0.056689"/>
+			<stat name="ALU_duty_cycle" value="0.022106"/>
 			<stat name="MUL_duty_cycle" value="0.000000"/>
 			<stat name="FPU_duty_cycle" value="0.000000"/>
-			<stat name="ALU_cdb_duty_cycle" value="0.022296"/>
+			<stat name="ALU_cdb_duty_cycle" value="0.022106"/>
 			<stat name="MUL_cdb_duty_cycle" value="0.000000"/>
 			<stat name="FPU_cdb_duty_cycle" value="0.000000"/>
 			<param name="number_of_BPT" value="2"/>
@@ -214,7 +216,7 @@
 				<param name="buffer_sizes" value="16, 16, 16, 0"/>
 				<!-- cache controller buffer sizes: miss_buffer_size(MSHR),fill_buffer_size,prefetch_buffer_size,wb_buffer_size-->
 				<stat name="read_accesses" value="61464705"/>
-				<stat name="read_misses" value="1060492"/>
+				<stat name="read_misses" value="1060773"/>
 				<stat name="conflicts" value="0"/>
 			</component>
 			<component id="system.core0.dtlb" name="dtlb">
@@ -225,13 +227,13 @@
 			</component>
 			<component id="system.core0.dcache" name="dcache">
 				<!-- all the buffer related are optional -->
-				<param name="dcache_config" value="32768,64,8,2,1,4, 0, 1"/>
+				<param name="dcache_config" value="32768,64,8,2,10,40, 0, 1"/>
 				<param name="buffer_sizes" value="16, 16, 16, 16"/>
 				<!-- cache controller buffer sizes: miss_buffer_size(MSHR),fill_buffer_size,prefetch_buffer_size,wb_buffer_size-->
-				<stat name="read_accesses" value="195102038"/>
+				<stat name="read_accesses" value="194041546"/>
 				<stat name="write_accesses" value="19661001"/>
-				<stat name="read_misses" value="76868724"/>
-				<stat name="write_misses" value="7168646"/>
+				<stat name="read_misses" value="194041546"/>
+				<stat name="write_misses" value="19661001"/>
 				<stat name="conflicts" value="0"/>
 			</component>
 			<component id="system.core0.BTB" name="BTB">
@@ -250,12 +252,12 @@
 				<param name="vdd" value="1.200000"/><!-- 0 means using ITRS default vdd -->
 				<param name="ports" value="1,1,1"/>
 				<param name="device_type" value="0"/>
-				<stat name="read_accesses" value="195102038"/>
+				<stat name="read_accesses" value="195102319"/>
 				<stat name="write_accesses" value="19661001"/>
-				<stat name="read_misses" value="76868724"/>
-				<stat name="write_misses" value="7168646"/>
+				<stat name="read_misses" value="76870017"/>
+				<stat name="write_misses" value="7181474"/>
 				<stat name="conflicts" value="0"/>
-				<stat name="duty_cycle" value="0.057461"/>
+				<stat name="duty_cycle" value="0.056971"/>
 		</component>
 		<component id="system.L30" name="L30">
 				<param name="L3_config" value="1024,64,16, 16, 16, 0,1"/>
@@ -310,8 +312,8 @@
 			<param name="databus_width" value="128"/>
 			<param name="addressbus_width" value="51"/>
 			<!-- McPAT will add the control bus width to the addressbus width automatically -->
-			<stat name="memory_accesses" value="78154759"/>
-			<stat name="memory_reads" value="78154702"/>
+			<stat name="memory_accesses" value="78155006"/>
+			<stat name="memory_reads" value="78154949"/>
 			<stat name="memory_writes" value="57"/>
 			<!-- McPAT does not track individual mc, instead, it takes the total accesses and calculate 
 			the average power per MC or per channel. This is sufficent for most application. 
