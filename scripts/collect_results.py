@@ -12,17 +12,22 @@ core_configuration = sys.argv[1]
 directories = [
     'CPU/{}'.format(core_configuration),
     'NDP/{}'.format(core_configuration),
+    'CPU-HBM/{}'.format(core_configuration),
     'CPU-no-translation/{}'.format(core_configuration),
     'NDP-no-translation/{}'.format(core_configuration),
+    'CPU-HBM-no-translation/{}'.format(core_configuration),
     'CPU-2MBpage/{}'.format(core_configuration),
     'NDP-2MBpage/{}'.format(core_configuration),
     'CPU-cuckoo/{}'.format(core_configuration),
     'NDP-cuckoo/{}'.format(core_configuration),
+    'CPU-HBM-cuckoo/{}'.format(core_configuration),
     'CPU-potm/{}'.format(core_configuration),
     'NDP-potm/{}'.format(core_configuration),
+    'CPU-HBM-potm/{}'.format(core_configuration),
     'NDP-cuckoo-potm-channel/{}'.format(core_configuration),
     'NDP-cuckoo-potm-bank/{}'.format(core_configuration),
-    'NDP-cuckoo-potm-normal/{}'.format(core_configuration)
+    'NDP-cuckoo-potm-normal/{}'.format(core_configuration),
+    'CPU-HBM-cuckoo-potm-channel/{}'.format(core_configuration)
 ]
 
 output_file = 'output_{}.csv'.format(core_configuration)
