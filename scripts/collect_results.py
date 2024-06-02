@@ -10,27 +10,9 @@ if len(sys.argv) < 2:
 core_configuration = sys.argv[1]
 
 directories = [
-    'CPU/{}'.format(core_configuration),
-    'NDP/{}'.format(core_configuration),
-    'CPU-HBM/{}'.format(core_configuration),
-    'CPU-no-translation/{}'.format(core_configuration),
-    'NDP-no-translation/{}'.format(core_configuration),
-    'CPU-HBM-no-translation/{}'.format(core_configuration),
-    'CPU-2MBpage/{}'.format(core_configuration),
-    'NDP-2MBpage/{}'.format(core_configuration),
-    'CPU-cuckoo/{}'.format(core_configuration),
-    'NDP-cuckoo/{}'.format(core_configuration),
-    'CPU-HBM-cuckoo/{}'.format(core_configuration),
-    'CPU-potm/{}'.format(core_configuration),
-    'NDP-potm/{}'.format(core_configuration),
-    'CPU-HBM-potm/{}'.format(core_configuration),
-    'NDP-cuckoo-potm-channel/{}'.format(core_configuration),
-    'NDP-cuckoo-potm-bank/{}'.format(core_configuration),
-    'NDP-cuckoo-potm-normal/{}'.format(core_configuration),
-    'CPU-HBM-cuckoo-potm-channel/{}'.format(core_configuration)
 ]
 
-output_file = 'output_{}.csv'.format(core_configuration)
+output_file = 'output_CPU_virtualized_{}.csv'.format(core_configuration)
 frequency_ghz = 2.6
 
 with open(output_file, 'w', newline='') as file:
@@ -44,7 +26,10 @@ with open(output_file, 'w', newline='') as file:
                      'DRAM Rank Request CoV', 'DRAM BG Request CoV', 'DRAM Rank Request MAX', 'DRAM BG Request MAX',
                      'DRAM Rank Delay CoV', 'DRAM BG Delay CoV', 'DRAM Rank Delay MAX', 'DRAM BG Delay MAX',
                      'Uncore-request',
-                     'STLB miss rate'])
+                     'L2TLB miss rate',
+                     'L2TLB MPKI',
+                     'STLB miss rate',
+                     'STLB MPKI'])
 
 def calculate_average_ptw_latency(data, frequency_ghz):
     ptw_latency_fs = 0
@@ -62,7 +47,8 @@ def calculate_average_ptw_latency(data, frequency_ghz):
         average_ptw_latency_cycles = 'N/A'
     return average_ptw_latency_cycles
 
-def calculate_STLB_miss_rate(data):
+def calculate_L2_TLB_miss_rate(data):
+    access_time = 0
     for line in data.splitlines():
         if line.startswith('stlb.access'):
             access_time = int(line.split('=')[1].split(',')[0].strip())
@@ -72,7 +58,19 @@ def calculate_STLB_miss_rate(data):
         return 'N/A'
     return miss_time / access_time
 
-def calculate_STLB_MPKI(data):
+def calculate_STLB_miss_rate(data):
+    access_time = 0
+    for line in data.splitlines():
+        if line.startswith('potm_tlb.access'):
+            access_time = int(line.split('=')[1].split(',')[0].strip())
+        if line.startswith('potm_tlb.miss'):
+            miss_time = int(line.split('=')[1].split(',')[0].strip())
+    if access_time == 0:
+        return 'N/A'
+    return miss_time / access_time
+
+def calculate_L2_TLB_MPKI(data):
+    access_time = 0
     for line in data.splitlines():
         if line.startswith('stlb.access'):
             access_time = int(line.split('=')[1].split(',')[0].strip())
@@ -80,7 +78,18 @@ def calculate_STLB_MPKI(data):
             miss_time = int(line.split('=')[1].split(',')[0].strip())
     if access_time == 0:
         return 'N/A'
-    return miss_time / 500000000
+    return miss_time / 500000000 * 1000
+
+def calculate_STLB_MPKI(data):
+    access_time = 0
+    for line in data.splitlines():
+        if line.startswith('potm_tlb.access'):
+            access_time = int(line.split('=')[1].split(',')[0].strip())
+        if line.startswith('potm_tlb.miss'):
+            miss_time = int(line.split('=')[1].split(',')[0].strip())
+    if access_time == 0:
+        return 'N/A'
+    return miss_time / 500000000 * 1000
 
 def calculate_cache_miss_rate(data, directory, subdir):
     cache_level_mapping = {
@@ -192,6 +201,8 @@ def get_llc_uncore_requests_first_value(data):
             return first_value
     return 'N/A'
 
+
+
 for directory in directories:
     for subdir in ['bc', 'bfs', 'cc', 'dlrm', 'gc', 'gen', 'pr', 'rnd', 'sssp', 'tc', 'xs']:
         out_path = os.path.join(directory, subdir, 'sim.stats')
@@ -213,8 +224,10 @@ for directory in directories:
         dram_bg_delay_max = 'N/A'    
         llc_uncore_requests = 'N/A'
         stlb_miss_rate = 'N/A'
-        stlb_miss = 'N/A'
         stlb_MPKI = 'N/A'
+        l2_tlb_miss_rate = 'N/A'
+        l2_tlb_MPKI = 'N/A'
+        
         if os.path.exists(out_path):
             with open(out_path, 'r') as file:
                 data = file.read()
@@ -225,6 +238,8 @@ for directory in directories:
                 llc_uncore_requests = get_llc_uncore_requests_first_value(data)
                 stlb_miss_rate = calculate_STLB_miss_rate(data)
                 stlb_MPKI = calculate_STLB_MPKI(data)
+                l2_tlb_miss_rate = calculate_L2_TLB_miss_rate(data)
+                l2_tlb_MPKI = calculate_L2_TLB_MPKI(data)
                 for line in data.splitlines():
                         if 'performance_model.cycle_count' in line:
                             cycles = line.split('=')[1].strip().split(',')[0].strip()
@@ -243,6 +258,8 @@ for directory in directories:
                              pwc_miss_rates.get('pwc_L2_miss_rate', 'N/A'),
                              dram_rank_total_time_cv, dram_bg_total_time_cv, dram_rank_total_time_max, dram_bg_total_time_max, dram_rank_request_cv, dram_bg_request_cv, dram_rank_request_max, dram_bg_request_max, dram_rank_delay_cv, dram_bg_delay_cv, dram_rank_delay_max, dram_bg_delay_max,
                              llc_uncore_requests,
+                             l2_tlb_miss_rate,
+                             l2_tlb_MPKI,
                              stlb_miss_rate,
                              stlb_MPKI
                              ])
